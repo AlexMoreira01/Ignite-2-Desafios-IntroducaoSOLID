@@ -9,14 +9,18 @@ class ListAllUsersUseCase {
   constructor(private usersRepository: IUsersRepository) {}
 
   execute({ user_id }: IRequest): User[] {
-    const allUsers = this.usersRepository.list();
-    const idAlreadExists = this.usersRepository.findById(user_id);
+    const user = this.usersRepository.findById(user_id);
 
-    if(){
-      
+    if(!user){
+      throw new Error("Mensagem do erro");
     }
 
-    return allUsers
+    if(!user.admin){
+      throw new Error("Mensagem do erro");
+    }
+
+    return this.usersRepository.list()
+    
   }
 }
 
