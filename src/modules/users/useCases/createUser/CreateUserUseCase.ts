@@ -16,12 +16,7 @@ class CreateUserUseCase{
       throw new Error("Mensagem do erro");
     }
 
-    const user = this.usersRepository.create({
-      name,
-      email
-    })
-
-    return user
+    return this.usersRepository.create({ name,email })
 
   }
 }
