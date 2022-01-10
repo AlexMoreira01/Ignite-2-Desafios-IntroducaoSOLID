@@ -1,0 +1,207 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Cadastro Usuarios",
+        "description": "Esta é uma api para o cadastro e a busca de usuários",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Create User",
+                "description": "Criar um novo usuário",
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "properties":{
+                                    "name":{
+                                        "type":"string"
+                                    },
+                                    "email":{
+                                        "type":"string"
+                                    }
+                                },
+                                "example":{
+                                    "name": "User name sample",
+                                    "email": "User@hotmail.com"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description": "Usuário criado com sucesso"
+                    },
+                    "400":{
+                        "description": "Erro ao criar o usuário"
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Users"],
+                "summary": "Return User",
+                "description": "Retorna os usuários",
+                "parameters": [
+                    {
+                      "in": "header",
+                      "name": "user_id",
+                      "required": true,
+                      "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description": "Success",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"array",
+                                    "items":{
+                                        "type":"object",
+                                        "properties": {
+                                            "admin": {
+                                              "type": "boolean"
+                                            },
+                                            "id": {
+                                              "type": "string"
+                                            },
+                                            "name": {
+                                              "type": "string"
+                                            },
+                                            "email": {
+                                              "type": "string"
+                                            },
+                                            "created_at": {
+                                              "type": "string"
+                                            },
+                                            "updated_at": {
+                                              "type": "string"
+                                            }
+                                        },
+                                        "example": [
+                                            {
+                                              "id": "b2cb667a-dc51-47a4-9658-c4fafdc5e809",
+                                              "admin": true,
+                                              "name": "User name sample",
+                                              "email": "User@hotmail.com",
+                                              "created_at": "2022-01-10T00:32:20.203Z",
+                                              "updated_at": "2022-01-10T00:32:20.203Z"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description": "Usuário sem permissão ou Usuário não encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": "string"
+                                    },
+                                    "example": {
+                                        "error": "Somente admins podem fazer buscas de usuários"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}":{
+            "get": {
+                "tags": ["Users"],
+                "summary": "Return specific user",
+                "description": "Retornando um usuário especifico",
+                "parameters": [
+                    {
+                      "in": "path",
+                      "name": "user_id",
+                      "required": true,
+                      "description": "ID do usuário",
+                      "schema": {
+                        "type": "string"
+                      }
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description": "Retornado com sucesso",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "admin": {
+                                            "type": "boolean"
+                                          },
+                                          "id": {
+                                            "type": "string"
+                                          },
+                                          "name": {
+                                            "type": "string"
+                                          },
+                                          "email": {
+                                            "type": "string"
+                                          },
+                                          "created_at": {
+                                            "type": "string"
+                                          },
+                                          "updated_at": {
+                                            "type": "string"
+                                          }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "description": "Error ao retornar esse usario"
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/admin":{
+            "patch": {
+                "tags": ["Users"],
+                "summary": "Update user to administrator",
+                "description": "Tornar o usario um admin",
+                "parameters": [
+                    {
+                      "in": "path",
+                      "name": "user_id",
+                      "required": true,
+                      "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description": "Usario agora é um admin"
+                    },
+                    "404":{
+                        "description": "Error ao tornar o usario um admin "
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+
+
+
